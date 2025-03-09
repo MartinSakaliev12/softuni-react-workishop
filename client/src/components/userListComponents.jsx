@@ -3,20 +3,26 @@ import Pagination from "./paginationConponents";
 import Search from "./searchComponets";
 import userServices from "../services/userService";
 import UserListItem from "./userListItem";
+import UserCreate from "./userCreate";
 
 function UserList() {
     //create state to hook data 
     const [users,setUsers] = useState([])
-
+    const [isShown,setShow] = useState(false);
     useEffect(()=>{
         userServices.getAll()
             .then(users=>setUsers(users))
     },[])
+
+    const addClickHandler = () => {
+        setShow(!isShown)
+    }
     return (
         <>
             <section className="card users-container">
             {/* <!-- Search bar component --> */}
                 <Search/>
+                {isShown && <UserCreate onClose={addClickHandler}/>}
 
             {/* <!-- Table component --> */}
                 <div className="table-wrapper">
@@ -156,9 +162,9 @@ function UserList() {
                 </div>
 
             {/* <!-- New user button  --> */}
-                <button className="btn-add btn">Add new user</button>
+                <button className="btn-add btn" onClick={addClickHandler}>Add new user</button>
 
-            {/* <!-- Pagination component  --> */}
+            {/* <!-- Pagination component  --> */} 
                 <Pagination/>
             </section>
         </>
