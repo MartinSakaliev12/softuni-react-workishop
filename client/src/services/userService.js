@@ -7,6 +7,18 @@ const userServices ={
         const values = Object.values(data)
 
         return values;
+    },
+    async createUser(data){
+        //make fetch
+        const result = await fetch(baseUrl,{
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json' // Specify content type
+            },
+            body:JSON.stringify(data)
+        })
+        const resultAsJson = await result.json()
+        return resultAsJson
     }
 }
 

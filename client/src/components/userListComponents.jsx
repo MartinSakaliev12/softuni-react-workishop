@@ -17,12 +17,23 @@ function UserList() {
     const addClickHandler = () => {
         setShow(!isShown)
     }
+
+    const saveNewUserClickHandler = async(e) =>{
+        e.preventDefault()
+        const formData = new FormData(e.target)
+        const data = Object.fromEntries(formData)
+        //make fetch to server
+        const res = await userServices.createUser(data)
+        //on success add to state
+        setUsers(users => [...users,res])
+        setShow(false)
+    }
     return (
         <>
             <section className="card users-container">
             {/* <!-- Search bar component --> */}
                 <Search/>
-                {isShown && <UserCreate onClose={addClickHandler}/>}
+                {isShown && <UserCreate onClose={addClickHandler} onSave={saveNewUserClickHandler}/>}
 
             {/* <!-- Table component --> */}
                 <div className="table-wrapper">
